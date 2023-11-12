@@ -139,6 +139,7 @@
                                                         , willClose: () => {
                                                             $("div#modal_default").modal('hide');
                                                             $('button#refresh').click();
+                                                            
                                                         }
                                                     });
                                                 }

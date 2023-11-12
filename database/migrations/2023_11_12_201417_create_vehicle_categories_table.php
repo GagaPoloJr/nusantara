@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('core.vehicle_categories', function (Blueprint $table) {
-            $table->string('category_id')->primary();
-            $table->string('category_code')->unique();
+            $table->id('category_id');
             $table->string('name');
             $table->string('create_by')->nullable();
             $table->string('update_by')->nullable();

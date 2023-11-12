@@ -1,4 +1,5 @@
 <?php
+use Modules\Vehicles\Http\Controllers\VehiclesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,6 +12,10 @@
 |
 */
 
-Route::prefix('vehicles')->group(function() {
-    Route::get('/', 'VehiclesController@index');
+Route::middleware('auth')->group(function(){
+    Route::resource('vehicles',VehiclesController::class);
+});
+
+Route::prefix('vehicles/datatable')->group(function() {
+    Route::get('/all', [VehiclesController::class,'all'])->name('vehicles.datatable.all');
 });

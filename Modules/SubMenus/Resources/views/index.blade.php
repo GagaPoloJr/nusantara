@@ -44,6 +44,7 @@
                                 <tr>
                                     <th>NO.</th>
                                     <th>NAMA SUB MENU</th>
+                                    <th>Parent sub menu</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -134,22 +135,29 @@
                     "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
                     ">"
                 , columns: [{
-                    data: 'DT_RowIndex'
-                    , name: 'DT_RowIndex'
-                    , orderable: false
-                    , searchable: false
-                }, {
-                    data: 'sub_menu_name'
-                    , name: 'sub_menu_name'
-                }, {
-                    data: null
-                    , orderable: false
-                    , searchable: false
-                }]
+                        data: 'DT_RowIndex'
+                        , name: 'DT_RowIndex'
+                        , orderable: false
+                        , searchable: false
+                    }, {
+                        data: 'sub_menu_name'
+                        , name: 'sub_menu_name'
+                    }
+                    , {
+                        data: 'menus.menu_name'
+                        , name: 'menus.menu_name'
+                    }
+                    , {
+                        data: null
+                        , orderable: false
+                        , searchable: false
+                    }
+                ]
                 , createdRow: function(row, data, dataIndex, cells) {
                     $(cells[0]).html('<div class="badge bg-dark text-wrap fs-6">' + data['DT_RowIndex'] + '</div>')
                     $(cells[1]).html(data['sub_menu_name'])
-                    $(cells[2]).html('<div class="btn-access  float-end"> @can("delete access") <button id="btn_delete" data-id=' + data['sub_menu_id'] + ' type="button" class="btn btn-danger btn-sm waves-effect waves-light float-end me-1 p-2"><span class="btn-label"><i class="fa fa-trash p-1"></i></span>Hapus</button> @endcan @can("update access") <button id="btn_update" data-id=' + data['sub_menu_id'] + ' type="button" class="btn btn-info btn-sm waves-effect waves-light float-end me-1 p-2" data-bs-toggle="modal" data-bs-target="#modal_default"><span class="btn-label"><i class="fa fa-pencil p-1"></i></span>Ubah</button> @endcan</div>')
+                    $(cells[2]).html(data['menus']['menu_name'])
+                    $(cells[3]).html('<div class="btn-access  float-end"> @can("delete access") <button id="btn_delete" data-id=' + data['sub_menu_id'] + ' type="button" class="btn btn-danger btn-sm waves-effect waves-light float-end me-1 p-2"><span class="btn-label"><i class="fa fa-trash p-1"></i></span>Hapus</button> @endcan @can("update access") <button id="btn_update" data-id=' + data['sub_menu_id'] + ' type="button" class="btn btn-info btn-sm waves-effect waves-light float-end me-1 p-2" data-bs-toggle="modal" data-bs-target="#modal_default"><span class="btn-label"><i class="fa fa-pencil p-1"></i></span>Ubah</button> @endcan</div>')
                 }
                 , drawCallback: function() {
                     $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
@@ -184,7 +192,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                     , method: 'get'
-                    , url: `{{ url('access/') }}/${id}/edit`
+                    , url: `{{ url('submenu/') }}/${id}/edit`
                     , success: function(res) {
                         $('div#modal_default').find('.modal-content').html(res);
                     }
@@ -232,7 +240,7 @@
                                     , data: {
                                         "reason": result.value
                                     }
-                                    , url: `{{ url('access/') }}/${id}`
+                                    , url: `{{ url('submenu/') }}/${id}`
                                     , success: function(response) {
                                         Swal.fire({
                                             title: 'Berhasil'

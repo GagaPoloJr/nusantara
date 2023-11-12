@@ -21,7 +21,11 @@ class SubMenusController extends Controller
     public function all()
     {
         if (Gate::allows('read access')) {
-            return DataTables::of(SubMenu::all()->whereNotIn('deleted', true))->addIndexColumn()->make(true);
+            
+            $subMenus = SubMenu::with('menus')->get()->whereNotIn('deleted',true);
+            return DataTables::of($subMenus)
+            ->addIndexColumn()
+            ->make(true);
         } else {
             abort(403, 'TIDAK PUNYA AKSES');
         }
@@ -112,7 +116,17 @@ class SubMenusController extends Controller
      */
     public function edit($id)
     {
-        return view('submenus::edit');
+        if (Gate::allows('update dictionary')) {
+            $submenu = Submenu::with('menus')->find($id);
+            // dd($submenu);
+            $menus = Menu::all()->whereNotIn('deleted', true);
+            return view('submenus::edit',[
+                'submenu'=>$submenu,
+                'menus'=> $menus
+            ]);
+        } else {
+            abort(403,'TIDAK PUNYA AKSES');
+        }
     }
 
     /**
@@ -121,18 +135,44 @@ class SubMenusController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,SubMenu $submenu)
     {
-        //
+        try {
+            $submenu->update([
+                'sub_menu_name'=>$request->sub_menu_name,
+                'url'=>$request->url,
+                'menu_id'=>$request->menu_id,
+                'update_by'=>Auth::user()->user_name,
+            ]);
+            DB::commit();
+            return 'data berhasil diupdate';
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
+
+   
 
     /**
      * Remove the specified resource from storage.
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(Request $request,SubMenu $submenu)
     {
-        //
+        try {
+            $submenu->update([
+                'deleted'=>true,
+                'delete_date'=>now(),
+                'delete_by'=>Auth::user()->user_name,
+                'delete_reason'=>$request->reason
+            ]);
+            DB::commit();
+            return 'data berhasil disimpan';
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 }

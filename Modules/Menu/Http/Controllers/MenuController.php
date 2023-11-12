@@ -107,7 +107,15 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
-        return view('menu::edit');
+        if (Gate::allows('update dictionary')) {
+            $menu = Menu::find($id);
+            // dd($submenu);
+            return view('menu::edit',[
+                'menu'=> $menu
+            ]);
+        } else {
+            abort(403,'TIDAK PUNYA AKSES');
+        }
     }
 
     /**
@@ -116,9 +124,24 @@ class MenuController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Menu $menu)
     {
-        //
+        try {
+            $menu->update([
+                'menu_name'=>$request->sub_menu_name,
+                'url'=>$request->url,
+                'main_menu'=>$request->main_menu,
+                'icon'=>$request->icon,
+                'sort'=>$request->sort,
+                'description'=>$request->description,
+                'update_by'=>Auth::user()->user_name,
+            ]);
+            DB::commit();
+            return 'data berhasil diupdate';
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 
     /**
@@ -126,8 +149,20 @@ class MenuController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(Request $request,Menu $menu)
     {
-        //
+        try {
+            $menu->update([
+                'deleted'=>true,
+                'delete_date'=>now(),
+                'delete_by'=>Auth::user()->user_name,
+                'delete_reason'=>$request->reason
+            ]);
+            DB::commit();
+            return 'data berhasil disimpan';
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 }

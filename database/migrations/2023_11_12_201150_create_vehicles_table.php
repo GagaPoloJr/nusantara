@@ -11,13 +11,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('core.vehicles', function (Blueprint $table) {
-            $table->string('vehicle_id')->primary();
+            $table->id('vehicle_id');
             $table->string('vehicle_name');
             $table->string('vehicle_code')->unique();
             $table->string('vehicle_number')->unique();
-            $table->string('vehicle_category');
-            $table->foreign('vehicle_category')
-                ->references('category_code')
+            $table->integer('category_id');
+            $table->foreign('category_id')
+                ->references('category_id')
                 ->on('core.vehicle_categories')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
