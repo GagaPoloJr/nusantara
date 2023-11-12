@@ -25,7 +25,7 @@ class VehiclesController extends Controller
     public function all()
     {
         if (Gate::allows('create vehicles')) {
-            $vehicles = Vehicle::with('vehicleCategory')->get()->whereNotIn('deleted',true);
+            $vehicles = Vehicle::with('vehicleCategory')->get()->whereNotIn('deleted', true);
             return DataTables::of($vehicles)
                 ->addIndexColumn()
                 ->make(true);
@@ -41,7 +41,7 @@ class VehiclesController extends Controller
      */
     public function index()
     {
-        if (Gate::allows('create vehicles')) {
+        if (Gate::allows('read vehicles')) {
             $version = Option::find('version_app')->value;
             $user = User::find(Auth::user()->user_id);
             $notifications = Notification::whereIn((new Notification())->getTable() . '.type', ['web'])
@@ -79,7 +79,7 @@ class VehiclesController extends Controller
     public function store(Request $request)
     {
         $vehicle_code = Vehicle::generateCodeVehicle();
-        if (Gate::allows('create access')) {
+        if (Gate::allows('create vehicles')) {
             DB::beginTransaction();
             try {
                 Vehicle::create([
@@ -88,7 +88,6 @@ class VehiclesController extends Controller
                     'vehicle_number' => $request->vehicle_number,
                     'vehicle_code' => $vehicle_code,
                     'category_id' => $request->vehicle_category,
-                    // 'menu_id' => $request->menu_id,
                     'create_by' => Auth::user()->user_name,
                 ]);
 
@@ -120,7 +119,16 @@ class VehiclesController extends Controller
      */
     public function edit($id)
     {
-        return view('vehicles::edit');
+        if (Gate::allows('update vehicles')) {
+            $vehicle = Vehicle::with('vehicleCategory')->find($id);
+            $vehicle_category = VehicleCategory::all()->whereNotIn('deleted', true);
+            return view('vehicles::vehicles.edit', [
+                'vehicle_category' => $vehicle_category,
+                'vehicle' => $vehicle
+            ]);
+        } else {
+            abort(403, 'TIDAK PUNYA AKSES');
+        }
     }
 
     /**
@@ -129,9 +137,21 @@ class VehiclesController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Vehicle $vehicle)
     {
-        //
+        try {
+            $vehicle->update([
+                'vehicle_name' => $request->vehicle_name,
+                'vehicle_number' => $request->vehicle_number,
+                'category_id' => $request->category_id,
+                'update_by' => Auth::user()->user_name,
+            ]);
+            DB::commit();
+            return 'data berhasil diupdate';
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 
     /**
@@ -139,8 +159,20 @@ class VehiclesController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(Request $request, Vehicle  $vehicle)
     {
-        //
+        try {
+            $vehicle->update([
+                'deleted'=>true,
+                'delete_date'=>now(),
+                'delete_by'=>Auth::user()->user_name,
+                'delete_reason'=>$request->reason
+            ]);
+            DB::commit();
+            return 'data berhasil disimpan';
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 }

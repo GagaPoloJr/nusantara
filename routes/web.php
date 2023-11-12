@@ -19,7 +19,8 @@ require __DIR__ . '/auth.php';
 
 view()->composer('template.partials.sidebar', function ($view) {
     // $menus = Menu::where('main_menu', 0)->orderBy('sort', 'ASC')->get();
-    $menus = Menu::with('subMenus')->get();
+    $menus = Menu::with('subMenus')->get()->whereNotIn('deleted',true);
+    // dd($menus);
     $view->with('menus', $menus);
 });
 

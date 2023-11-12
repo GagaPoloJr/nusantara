@@ -6,7 +6,7 @@
     <!--begin::Form-->
     <form id="formvalidation" class="form" action="#" autocomplete="off">
         <!--begin::Input group-->
-        <input id="dictionary_id" type="hidden" name="dictionary_id" value="{{ $submenu->sub_menu_id }}">
+        <input id="sub_menu_id" type="hidden" name="sub_menu_id" value="{{ $submenu->sub_menu_id }}">
         <div class="fv-row mb-5">
             <label for="sub_menu_name" class="form-label">Nama Sub Menu * :</label>
             <input type="text" class="form-control" name="sub_menu_name" id="sub_menu_name" value="{{ $submenu->sub_menu_name }}">

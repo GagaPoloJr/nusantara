@@ -66,18 +66,18 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         //
-        if (Gate::allows('create access')) {
+        if (Gate::allows('create menu')) {
             DB::beginTransaction();
             try {
                 Menu::create([
-                    'menu_id'     => Menu::max('menu_id') + 1,
-                    'menu_name'     => $request->menu_name,
-                    'url'           => $request->url,
-                    'icon'          => $request->icon,
-                    'main_menu'     => $request->main_menu,
-                    'sort'          => $request->sort,
-                    'description'   => $request->description,
-                    'create_by'     => Auth::user()->user_name,
+                    'menu_id' => Menu::max('menu_id') + 1,
+                    'menu_name' => $request->menu_name,
+                    'url' => $request->url,
+                    'icon' => $request->icon,
+                    'main_menu' => $request->main_menu,
+                    'sort' => $request->sort,
+                    'description' => $request->description,
+                    'create_by' => Auth::user()->user_name,
                 ]);
                 DB::commit();
                 return 'data berhasil disimpan';
@@ -107,14 +107,14 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
-        if (Gate::allows('update dictionary')) {
+        if (Gate::allows('update menu')) {
             $menu = Menu::find($id);
             // dd($submenu);
-            return view('menu::edit',[
-                'menu'=> $menu
+            return view('menu::edit', [
+                'menu' => $menu
             ]);
         } else {
-            abort(403,'TIDAK PUNYA AKSES');
+            abort(403, 'TIDAK PUNYA AKSES');
         }
     }
 
@@ -128,13 +128,13 @@ class MenuController extends Controller
     {
         try {
             $menu->update([
-                'menu_name'=>$request->sub_menu_name,
-                'url'=>$request->url,
-                'main_menu'=>$request->main_menu,
-                'icon'=>$request->icon,
-                'sort'=>$request->sort,
-                'description'=>$request->description,
-                'update_by'=>Auth::user()->user_name,
+                'menu_name' => $request->menu_name,
+                'url' => $request->url,
+                'main_menu' => $request->main_menu,
+                'icon' => $request->icon,
+                'sort' => $request->sort,
+                'description' => $request->description,
+                'update_by' => Auth::user()->user_name,
             ]);
             DB::commit();
             return 'data berhasil diupdate';
@@ -149,20 +149,22 @@ class MenuController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(Request $request,Menu $menu)
+    public function destroy(Request $request, Menu $menu)
     {
-        try {
-            $menu->update([
-                'deleted'=>true,
-                'delete_date'=>now(),
-                'delete_by'=>Auth::user()->user_name,
-                'delete_reason'=>$request->reason
-            ]);
-            DB::commit();
-            return 'data berhasil disimpan';
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
+        if (Gate::allows('delete menu')) {
+            try {
+                $menu->update([
+                    'deleted' => true,
+                    'delete_date' => now(),
+                    'delete_by' => Auth::user()->user_name,
+                    'delete_reason' => $request->reason
+                ]);
+                DB::commit();
+                return 'data berhasil disimpan';
+            } catch (\Exception $e) {
+                DB::rollback();
+                throw $e;
+            }
         }
     }
 }

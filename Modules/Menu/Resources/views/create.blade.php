@@ -27,7 +27,6 @@
         <div class="fv-row mb-5">
             <label for="description" class="form-label">Role Menu :</label>
             <input type="text" class="form-control" name="description" id="description">
-            <small><i>*jika menu sebagai parent, isi parent. Jika tidak, kosongkan</i></small>
         </div>
         </button>
     </form>

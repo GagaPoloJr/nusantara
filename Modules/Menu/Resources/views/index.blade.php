@@ -172,7 +172,7 @@
                     $.ajax({
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         method:'get',
-                        url:  `{{ url('access/') }}/${id}/edit`,
+                        url:  `{{ url('menu/') }}/${id}/edit`,
                         success: function(res){
                             $('div#modal_default').find('.modal-content').html(res);
                         }

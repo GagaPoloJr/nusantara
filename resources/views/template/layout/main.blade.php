@@ -49,7 +49,7 @@
             @include('template.partials.header')
             <div class="mb-10">
                 <div>
-                    @include('dashboard')
+                    
                 </div>
             </div>
             @yield('container')

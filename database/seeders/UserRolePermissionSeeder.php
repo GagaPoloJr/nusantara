@@ -119,6 +119,43 @@ class UserRolePermissionSeeder extends Seeder
             Permission::create(['name' => 'delete company']);
             Permission::create(['name' => 'delete option']);
 
+            // // menu permission
+            // Permission::create(['name' => 'create menu']);
+            // Permission::create(['name' => 'update menu']);
+            // Permission::create(['name' => 'delete menu']);
+            // Permission::create(['name' => 'read menu']);
+
+            // submenu permission
+            Permission::create(['name' => 'create submenu']);
+            Permission::create(['name' => 'update submenu']);
+            Permission::create(['name' => 'delete submenu']);
+            Permission::create(['name' => 'read submenu']);
+
+            // vehicles permission
+            Permission::create(['name' => 'create vehicles']);
+            Permission::create(['name' => 'update vehicles']);
+            Permission::create(['name' => 'delete vehicles']);
+            Permission::create(['name' => 'read vehicles']);
+
+            //give permission menu
+            // $role_admin->givePermissionTo('create menu');
+            // $role_admin->givePermissionTo('update menu');
+            // $role_admin->givePermissionTo('delete menu');
+            // $role_admin->givePermissionTo('read menu');
+
+              //give permission submenu
+              $role_admin->givePermissionTo('create submenu');
+              $role_admin->givePermissionTo('update submenu');
+              $role_admin->givePermissionTo('delete submenu');
+              $role_admin->givePermissionTo('read submenu');
+
+                //give permission vehicles
+            $role_admin->givePermissionTo('create vehicles');
+            $role_admin->givePermissionTo('update vehicles');
+            $role_admin->givePermissionTo('delete vehicles');
+            $role_admin->givePermissionTo('read vehicles');
+          
+
             $role_admin->givePermissionTo('create group');
             $role_admin->givePermissionTo('create access');
             $role_admin->givePermissionTo('create user');

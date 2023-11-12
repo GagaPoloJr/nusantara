@@ -1,5 +1,6 @@
-@forelse ($subMenus as $subMenu)
-    {{-- @can('read '.$subMenu->url) --}}
+@forelse ($subMenus as $index => $subMenu)
+    @can('read '.$subMenu->url)
+
         <!--begin:Menu item-->
         <div class="menu-item">
             <!--begin:Menu link-->
@@ -8,18 +9,38 @@
                     <span class="bullet bullet-dot"></span>
                 </span>
                 <span class="menu-title">{{$subMenu->sub_menu_name}}</span>
-                {{-- <span class="menu-arrow"></span> --}}
             </a>
             <!--end:Menu link-->
-
-            {{-- <!--begin:Menu sub-->
-            <div class="menu-sub menu-sub-accordion menu-active-bg">
-                @include('template.partials.sidebar_sub',['subMenus' => $subMenu->subMenus])
-            </div>
-            <!--end:Menu sub--> --}}
         </div>
         <!--end:Menu item-->
-    {{-- @endcan --}}
-@empty
-  
+        @endcan
+
+    @empty
+
 @endforelse
+<div data-kt-menu-trigger="click" class="menu-item menu-accordion hover show">
+    <!--begin:Menu link-->
+    <span href="vehicles" class="menu-link">
+        <span class="menu-bullet">
+            <span class="bullet bullet-dot"></span>
+        </span>
+        <span class="menu-title">Master</span>
+        <span class="menu-arrow"></span>
+    </span>
+    <!--end:Menu link-->
+
+    <div class="menu-sub menu-sub-accordion">
+    <div class="menu-item">
+        <!--begin:Menu link-->
+        <a class="menu-link" href="vehicles">
+        <span class="menu-bullet">
+            <span class="bullet bullet-dot"></span>
+        </span>
+            <span class="menu-title">Registrasi Kendaraan</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    </div>
+</div>
+
+
