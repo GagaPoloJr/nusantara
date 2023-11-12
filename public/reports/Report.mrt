@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <data Ref="2" type="Stimulsoft.Report.Dictionary.StiJsonDatabase" isKey="true">
+        <Alias>data</Alias>
+        <Key />
+        <Name>data</Name>
+        <PathData>F:\xampp\htdocs\web.tms\public\reports\data.json</PathData>
+      </data>
+    </Databases>
+    <DataSources isList="true" count="13">
+      <Auto Ref="3" type="DataTableSource" isKey="true">
+        <Alias>Auto</Alias>
+        <Columns isList="true" count="5">
+          <value>Rank,System.Decimal</value>
+          <value>Country,System.String</value>
+          <value>Year2009,System.Decimal</value>
+          <value>Year2005,System.Decimal</value>
+          <value>Year2000,System.Decimal</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>8dc8b4788bec47669f4326f9233c2b56</Key>
+        <Name>Auto</Name>
+        <NameInSource>data.Auto</NameInSource>
+      </Auto>
+      <Categories Ref="4" type="DataTableSource" isKey="true">
+        <Alias>Categories</Alias>
+        <Columns isList="true" count="4">
+          <value>CategoryID,System.Decimal</value>
+          <value>CategoryName,System.String</value>
+          <value>Description,System.String</value>
+          <value>Picture,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>c971404d380345a696e7569d39db4694</Key>
+        <Name>Categories</Name>
+        <NameInSource>data.Categories</NameInSource>
+      </Categories>
+      <Countries Ref="5" type="DataTableSource" isKey="true">
+        <Alias>Countries</Alias>
+        <Columns isList="true" count="3">
+          <value>CountriesID,System.Decimal</value>
+          <value>Flag,System.String</value>
+          <value>CountryName,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>beec1291248e432a9308ce6baa009da4</Key>
+        <Name>Countries</Name>
+        <NameInSource>data.Countries</NameInSource>
+      </Countries>
+      <Customers Ref="6" type="DataTableSource" isKey="true">
+        <Alias>Customers</Alias>
+        <Columns isList="true" count="11">
+          <value>CustomerID,System.String</value>
+          <value>CompanyName,System.String</value>
+          <value>ContactName,System.String</value>
+          <value>ContactTitle,System.String</value>
+          <value>Address,System.String</value>
+          <value>City,System.String</value>
+          <value>Region,System.String</value>
+          <value>PostalCode,System.String</value>
+          <value>Country,System.String</value>
+          <value>Phone,System.String</value>
+          <value>Fax,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>5fc686fe8426442d86c675ceac6341c6</Key>
+        <Name>Customers</Name>
+        <NameInSource>data.Customers</NameInSource>
+      </Customers>
+      <Employees Ref="7" type="DataTableSource" isKey="true">
+        <Alias>Employees</Alias>
+        <Columns isList="true" count="17">
+          <value>EmployeeID,System.Decimal</value>
+          <value>LastName,System.String</value>
+          <value>FirstName,System.String</value>
+          <value>Title,System.String</value>
+          <value>TitleOfCourtesy,System.String</value>
+          <value>BirthDate,System.DateTime</value>
+          <value>HireDate,System.DateTime</value>
+          <value>Address,System.String</value>
+          <value>City,System.String</value>
+          <value>Region,System.String</value>
+          <value>PostalCode,System.String</value>
+          <value>Country,System.String</value>
+          <value>HomePhone,System.String</value>
+          <value>Extension,System.String</value>
+          <value>Photo,System.String</value>
+          <value>Notes,System.String</value>
+          <value>ReportsTo,System.Decimal</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>3b4d4540940b4bfaa1b773349765a912</Key>
+        <Name>Employees</Name>
+        <NameInSource>data.Employees</NameInSource>
+      </Employees>
+      <GlobalGrowth Ref="8" type="DataTableSource" isKey="true">
+        <Alias>GlobalGrowth</Alias>
+        <Columns isList="true" count="5">
+          <value>Region,System.String</value>
+          <value>Year2006,System.Decimal</value>
+          <value>Year2007,System.Decimal</value>
+          <value>Year2008,System.Decimal</value>
+          <value>Year2009,System.Decimal</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>fdbbadd3d27e411fb5603c40239b481a</Key>
+        <Name>GlobalGrowth</Name>
+        <NameInSource>data.GlobalGrowth</NameInSource>
+      </GlobalGrowth>
+      <Opec Ref="9" type="DataTableSource" isKey="true">
+        <Alias>Opec</Alias>
+        <Columns isList="true" count="9">
+          <value>Year,System.Decimal</value>
+          <value>Iran,System.Decimal</value>
+          <value>Iraq,System.Decimal</value>
+          <value>Kuwait,System.Decimal</value>
+          <value>Saudi_x0020_Arabia,System.Decimal</value>
+          <value>UAE,System.Decimal</value>
+          <value>Venezuela,System.Decimal</value>
+          <value>Libya,System.Decimal</value>
+          <value>Nigeria,System.Decimal</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>c07066e67bcc4850a612bca47d816f58</Key>
+        <Name>Opec</Name>
+        <NameInSource>data.Opec</NameInSource>
+      </Opec>
+      <Order_x0020_Details Ref="10" type="DataTableSource" isKey="true">
+        <Alias>Order Details</Alias>
+        <Columns isList="true" count="5">
+          <value>OrderID,System.Decimal</value>
+          <value>ProductID,System.Decimal</value>
+          <value>UnitPrice,System.Decimal</value>
+          <value>Quantity,System.Decimal</value>
+          <value>Discount,System.Decimal</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>109a5d2579b149619c9142bbd3712d28</Key>
+        <Name>Order Details</Name>
+        <NameInSource>data.Order Details</NameInSource>
+      </Order_x0020_Details>
+      <Orders Ref="11" type="DataTableSource" isKey="true">
+        <Alias>Orders</Alias>
+        <Columns isList="true" count="14">
+          <value>OrderID,System.Decimal</value>
+          <value>CustomerID,System.String</value>
+          <value>EmployeeID,System.Decimal</value>
+          <value>OrderDate,System.DateTime</value>
+          <value>RequiredDate,System.DateTime</value>
+          <value>ShippedDate,System.DateTime</value>
+          <value>ShipVia,System.Decimal</value>
+          <value>Freight,System.Decimal</value>
+          <value>ShipName,System.String</value>
+          <value>ShipAddress,System.String</value>
+          <value>ShipCity,System.String</value>
+          <value>ShipRegion,System.String</value>
+          <value>ShipPostalCode,System.String</value>
+          <value>ShipCountry,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>616222b70e564fd4ae29ab2761e046ed</Key>
+        <Name>Orders</Name>
+        <NameInSource>data.Orders</NameInSource>
+      </Orders>
+      <Products Ref="12" type="DataTableSource" isKey="true">
+        <Alias>Products</Alias>
+        <Columns isList="true" count="10">
+          <value>ProductID,System.Decimal</value>
+          <value>ProductName,System.String</value>
+          <value>SupplierID,System.Decimal</value>
+          <value>CategoryID,System.Decimal</value>
+          <value>QuantityPerUnit,System.String</value>
+          <value>UnitPrice,System.Decimal</value>
+          <value>UnitsInStock,System.Decimal</value>
+          <value>UnitsOnOrder,System.Decimal</value>
+          <value>ReorderLevel,System.Decimal</value>
+          <value>Discontinued,System.Boolean</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>e71e9fdcbc3f47ff83e19adc92f768e8</Key>
+        <Name>Products</Name>
+        <NameInSource>data.Products</NameInSource>
+      </Products>
+      <Shippers Ref="13" type="DataTableSource" isKey="true">
+        <Alias>Shippers</Alias>
+        <Columns isList="true" count="3">
+          <value>ShipperID,System.Decimal</value>
+          <value>CompanyName,System.String</value>
+          <value>Phone,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>22aa2b33f3e240cb989f560112d074c0</Key>
+        <Name>Shippers</Name>
+        <NameInSource>data.Shippers</NameInSource>
+      </Shippers>
+      <States Ref="14" type="DataTableSource" isKey="true">
+        <Alias>States</Alias>
+        <Columns isList="true" count="4">
+          <value>Name,System.String</value>
+          <value>USPS,System.String</value>
+          <value>Population,System.Decimal</value>
+          <value>Capital,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>00f831870c014b13a22df199309b84e8</Key>
+        <Name>States</Name>
+        <NameInSource>data.States</NameInSource>
+      </States>
+      <Suppliers Ref="15" type="DataTableSource" isKey="true">
+        <Alias>Suppliers</Alias>
+        <Columns isList="true" count="12">
+          <value>SupplierID,System.Decimal</value>
+          <value>CompanyName,System.String</value>
+          <value>ContactName,System.String</value>
+          <value>ContactTitle,System.String</value>
+          <value>Address,System.String</value>
+          <value>City,System.String</value>
+          <value>Region,System.String</value>
+          <value>PostalCode,System.String</value>
+          <value>Country,System.String</value>
+          <value>Phone,System.String</value>
+          <value>Fax,System.String</value>
+          <value>HomePage,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Key>cc4a63d244d947208d6baf628f965674</Key>
+        <Name>Suppliers</Name>
+        <NameInSource>data.Suppliers</NameInSource>
+      </Suppliers>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Resources isList="true" count="0" />
+    <Variables isList="true" count="0" />
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <Key>7943fc0a3aef47a2a6a8682b886ba922</Key>
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="16" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="4">
+        <Text1 Ref="17" type="Text" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>White</Brush>
+          <ClientRectangle>2,1,5,1.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10,Bold</Font>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text1</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Text>asdasdasdasdasddasdasdassad</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text1>
+        <Text2 Ref="18" type="Text" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>White</Brush>
+          <ClientRectangle>4.6,3.4,1.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10,Bold</Font>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text2</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Text>{Employees.LastName}</Text>
+          <TextBrush>Black</TextBrush>
+          <VertAlignment>Center</VertAlignment>
+        </Text2>
+        <Text3 Ref="19" type="Text" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>White</Brush>
+          <ClientRectangle>10.2,3.4,1.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10,Bold</Font>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text3</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Text>{Employees.LastName}</Text>
+          <TextBrush>Black</TextBrush>
+          <VertAlignment>Center</VertAlignment>
+        </Text3>
+        <Text4 Ref="20" type="Text" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>White</Brush>
+          <ClientRectangle>9.6,5,1.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10,Bold</Font>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text4</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Text>{Employees.Title}</Text>
+          <TextBrush>Black</TextBrush>
+          <VertAlignment>Center</VertAlignment>
+        </Text4>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>e8f485458c76414393f8bd900a94b7a7</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+    </Page1>
+  </Pages>
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>9/6/2023 2:11:57 PM</ReportChanged>
+  <ReportCreated>9/6/2023 2:08:52 PM</ReportCreated>
+  <ReportFile>F:\xampp\htdocs\web.tms\public\reports\Report.mrt</ReportFile>
+  <ReportGuid>ba6836e90db7440c987649069e395834</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2020.2.3.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

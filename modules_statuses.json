@@ -1,0 +1,14 @@
+{
+    "Users": true,
+    "Roles": false,
+    "Company": true,
+    "Access": true,
+    "Group": true,
+    "User": true,
+    "Dictionary": true,
+    "DictionaryData": true,
+    "Menu": true,
+    "Ticket": true,
+    "Report": true,
+    "Vehicles": true
+}
