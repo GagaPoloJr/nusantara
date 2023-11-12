@@ -1,8 +1,9 @@
 <?php
 
-namespace Modules\Menu\Http\Controllers;
+namespace Modules\SubMenus\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\SubMenu;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -14,13 +15,13 @@ use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
 use App\Models\Option;
 
-class MenuController extends Controller
+class SubMenusController extends Controller
 {
 
     public function all()
     {
         if (Gate::allows('read access')) {
-            return DataTables::of(Menu::all()->whereNotIn('deleted', true))->addIndexColumn()->make(true);
+            return DataTables::of(SubMenu::all()->whereNotIn('deleted', true))->addIndexColumn()->make(true);
         } else {
             abort(403, 'TIDAK PUNYA AKSES');
         }
@@ -39,7 +40,7 @@ class MenuController extends Controller
                 ->where((new Notification())->getTable() . '.status', '=', null)
                 ->where((new Notification())->getTable() . '.send_to', '=', Auth::user()->user_id)
                 ->get();
-            return view('menu::index', [
+            return view('submenus::index', [
                 'user' => $user,
                 'notifications' => $notifications,
                 'version' => $version,
@@ -55,7 +56,14 @@ class MenuController extends Controller
      */
     public function create()
     {
-        return view('menu::create');
+        if (Gate::allows('read dictionarydata')) {
+            $menus = Menu::all()->whereNotIn('deleted', true);
+            return view('submenus::create', [
+                'menus' => $menus,
+            ]);
+        } else {
+            abort(403, 'TIDAK PUNYA AKSES');
+        }
     }
 
     /**
@@ -65,19 +73,16 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
         if (Gate::allows('create access')) {
             DB::beginTransaction();
             try {
-                Menu::create([
-                    'menu_id'     => Menu::max('menu_id') + 1,
-                    'menu_name'     => $request->menu_name,
-                    'url'           => $request->url,
-                    'icon'          => $request->icon,
-                    'main_menu'     => $request->main_menu,
-                    'sort'          => $request->sort,
-                    'description'   => $request->description,
-                    'create_by'     => Auth::user()->user_name,
+                SubMenu::create([
+                    'sub_menu_id' => SubMenu::max('sub_menu_id') + 1,
+                    'sub_menu_name' => $request->sub_menu_name,
+                    'sort' => $request->sort,
+                    'url' => $request->url,
+                    'menu_id' => $request->menu_id,
+                    'create_by' => Auth::user()->user_name,
                 ]);
                 DB::commit();
                 return 'data berhasil disimpan';
@@ -97,7 +102,7 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        return view('menu::show');
+        return view('submenus::show');
     }
 
     /**
@@ -107,7 +112,7 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
-        return view('menu::edit');
+        return view('submenus::edit');
     }
 
     /**

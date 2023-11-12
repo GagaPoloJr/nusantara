@@ -1,5 +1,5 @@
 <?php
-use Modules\Menu\Http\Controllers\MenuController;
+use Modules\SubMenus\Http\Controllers\SubMenusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,11 +12,10 @@ use Modules\Menu\Http\Controllers\MenuController;
 |
 */
 
-
 Route::middleware('auth')->group(function(){
-    Route::resource('menu',MenuController::class);
+    Route::resource('submenu',SubMenusController::class);
 });
 
-Route::prefix('menu/datatable')->group(function() {
-    Route::get('/all', [MenuController::class,'all'])->name('menu.datatable.all');
+Route::prefix('submenu/datatable')->group(function() {
+    Route::get('/all', [SubMenusController::class,'all'])->name('submenu.datatable.all');
 });

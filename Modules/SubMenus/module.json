@@ -1,0 +1,11 @@
+{
+    "name": "SubMenus",
+    "alias": "submenus",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SubMenus\\Providers\\SubMenusServiceProvider"
+    ],
+    "files": []
+}

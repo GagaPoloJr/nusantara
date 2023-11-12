@@ -10,5 +10,6 @@
     "Menu": true,
     "Ticket": true,
     "Report": true,
-    "Vehicles": true
+    "Vehicles": true,
+    "SubMenus": true
 }

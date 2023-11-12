@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 view()->composer('template.partials.sidebar', function ($view) {
-    $menus = Menu::where('main_menu', 0)->orderBy('sort', 'ASC')->get();
+    // $menus = Menu::where('main_menu', 0)->orderBy('sort', 'ASC')->get();
+    $menus = Menu::with('subMenus')->get();
     $view->with('menus', $menus);
 });
 
