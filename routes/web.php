@@ -18,10 +18,13 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 view()->composer('template.partials.sidebar', function ($view) {
-    // $menus = Menu::where('main_menu', 0)->orderBy('sort', 'ASC')->get();
     $menus = Menu::with('subMenus')->get()->whereNotIn('deleted',true);
-    // dd($menus);
-    $view->with('menus', $menus);
+    $menu_vehicles = [
+        ['name' => 'Registrasi Kendaraan', 'link' => 'vehicles'],
+        ['name' => 'Form Check', 'link' => 'vehicles/form'],
+        ['name' => 'Checklist Kendaraan', 'link' => 'vehicles/checklist'],
+    ];
+    $view->with(['menus' =>$menus, 'menu_vehicles' => $menu_vehicles]);
 });
 
 Route::middleware('auth')->group(function () {
