@@ -183,6 +183,7 @@
                                         <th class="min-w-185px">Jenis Pengecekan</th>
                                         <th class="min-w-125px">Petugas</th>
                                         <th class="min-w-125px">Tanggal Pengecekan</th>
+                                        <th class="min-w-195px">Keterangan</th>
                                         <th class="min-w-195px">Status</th>
                                     </tr>
                                 </thead>
@@ -272,7 +273,7 @@
                     <!--begin::Card footer-->
                     <div class="card-footer d-flex justify-content-end py-6 px-9">
                         <button class="btn btn-light btn-active-light-primary me-2">Batal</button>
-                        <button class="btn btn-primary">Simpan Progres</button>
+                        <button id="submit_progress" class="btn btn-primary">Simpan Progres</button>
                     </div>
                     <!--end::Card footer-->
                 </div>
@@ -290,6 +291,7 @@
         const searchInput = $('#searchInput');
         const resultsContainer = $('#searchResults');
         const resultPopulate = $('#resultVehicles');
+        var initialData = [];
 
 
 
@@ -508,6 +510,10 @@
                                 , name: 'form_id'
                             }
                             , {
+                                data: 'status'
+                                , name: 'status'
+                            }
+                            , {
                                 data: null
                                 , orderable: false
                                 , searchable: false
@@ -515,9 +521,32 @@
                         ]
 
                     , createdRow: function(row, data, dataIndex, cells) {
+                        console.log(initialData)
 
-                        let actionButton = (id) => `
-                        <a id="button-dropdown" href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                        function renderStatusTemplate(text) {
+                            return `
+                            <div class="badge bg-${text.toLowerCase() === 'baik' ? 'success':'warning'} text-wrap fs-6">${text}</div>
+                            `
+                        }
+
+                        function checkData(id, form_id, vehicle_code) {
+                            console.log(`${initialData[dataIndex]}`, 'data aja')
+                             if (data['is_good'] !== null) {
+                                return `${data['is_good'] === 1 ? renderStatusTemplate('Baik') : renderStatusTemplate('Tidak Baik')}`;
+                            } 
+                             else if (initialData[dataIndex]?.is_update) {
+                                return `
+                                    ${initialData[dataIndex]?.is_good === 1 ? renderStatusTemplate('Baik') : renderStatusTemplate('Tidak Baik')}
+                                `;
+                            } 
+                            else {
+                               
+                                return actionButton(id, form_id, vehicle_code);
+                            }
+                        }
+
+                        let actionButton = (id, form_id, vehicle_code) => `
+                        <a id="button-dropdown" href="#" class="btn btn-light btn-active-light-primary btn-sm btn-dropdown-status" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 Status
                             <span class="svg-icon svg-icon-5 m-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -528,10 +557,10 @@
                         </a>
                         <div id="menu-sub-dropdown" class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
                                 <div class="menu-item px-3">
-                                    <a  type="button" href="#" id="btn_baik" data-id="${data[id]}" class="menu-link px-3">Baik</a>
+                                    <a  type="button"  id="btn_baik" data-index="${dataIndex}" data-form="${data[form_id]}" data-code="${data[vehicle_code]}" data-id="${data[id]}" data-status="1" class="menu-link px-3 btn-status">Baik</a>
                                 </div>
                                 <div class="menu-item px-3">
-                                    <a type="button" href="#" id="btn_buruk" data-id="${data[id]}" class="menu-link px-3">Tidak Baik</a>
+                                    <a type="button"  id="btn_buruk" data-index="${dataIndex}" data-form="${data[form_id]}" data-code="${data[vehicle_code]}" data-id="${data[id]}" data-status="0" class="menu-link px-3 btn-status">Tidak Baik</a>
                                 </div>
                         </div>
                         
@@ -540,7 +569,8 @@
                         $(cells[1]).html(data['forms']['form_name'])
                         $(cells[2]).html('-')
                         $(cells[3]).html(convertDate(data['created_at']))
-                        $(cells[4]).html(actionButton('checklist_id'))
+                        $(cells[4]).html(data['status'])
+                        $(cells[5]).html(initialData ? checkData('checklist_id', 'form_id', 'vehicle_code') :actionButton('checklist_id', 'form_id', 'vehicle_code'))
                         // $(cells[4]).html('<div class="btn-access  float-end"> @can("delete access") <button id="btn_delete" data-id=' + data['menu_id'] + ' type="button" class="btn btn-danger btn-sm waves-effect waves-light float-end me-1 p-2"><span class="btn-label"><i class="fa fa-trash p-1"></i></span>Hapus</button> @endcan @can("update access") <button id="btn_update" data-id=' + data['menu_id'] + ' type="button" class="btn btn-info btn-sm waves-effect waves-light float-end me-1 p-2" data-bs-toggle="modal" data-bs-target="#modal_default"><span class="btn-label"><i class="fa fa-pencil p-1"></i></span>Ubah</button> @endcan</div>')
                     }
                     , drawCallback: function() {
@@ -548,7 +578,7 @@
 
 
                         $(document).on('click', function(e) {
-                            const buttonDropdown = $('#button-dropdown');
+                            const buttonDropdown = $('.btn-dropdown-status');
                             const dropdownContent = buttonDropdown.next();
 
                             // Check if the click is outside the button and its dropdown content
@@ -557,7 +587,7 @@
                                 dropdownContent.slideUp('down');
                             }
                         });
-                        $('#button-dropdown').click(function(e) {
+                        $('.btn-dropdown-status').click(function(e) {
                             e.preventDefault();
                             $(this).next().slideToggle('down')
                         })
@@ -579,13 +609,6 @@
 
 
 
-
-    })
-
-</script>
-
-<script>
-    $(document).ready(function() {
         setTimeout(function() {
 
             $('button#btn_add').on('click', function() {
@@ -602,8 +625,131 @@
                     }
                 });
             });
+
+
+            // for update state
+            $('table#checklist_datatable').on('click', 'a.btn-status', function() {
+                let data = $(this).data()
+                let id = data.id
+                let status = parseInt(data.status);
+                let vehicle_code = data.code;
+                let form_id = data.form;
+                let data_index = data.index;
+                Swal.fire({
+                    title: 'Keterangan'
+                    , input: 'textarea'
+                    , allowOutsideClick: false
+                    , allowEscapeKey: false
+                , }).then(function(result) {
+                    if (result.value == "") {
+                        Swal.fire({
+                            title: 'Opps'
+                            , text: 'Tidak boleh kosong'
+                            , icon: 'error'
+                            , showConfirmButton: false
+                            , timer: 2000
+                            , timerProgressBar: true
+                            , didOpen: () => {}
+                            , willClose: () => {}
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'Apa kamu yakin?'
+                            , text: "data akan dikirim!"
+                            , icon: 'warning'
+                            , showCancelButton: true
+                            , confirmButtonColor: '#3085d6'
+                            , cancelButtonColor: '#d33'
+                            , confirmButtonText: 'Ya, kirim!'
+                            , cancelButtonText: 'Batal'
+                        }).then((question) => {
+                            if (question.isConfirmed) {
+                               
+                                initialData[data_index] = {
+                                    data_index: data_index
+                                    ,checklist_id: id
+                                    , status: result.value
+                                    , is_good: status
+                                    , vehicle_code: vehicle_code
+                                    , form_id: form_id
+                                    , is_update: true
+                                };
+
+                                Swal.fire({
+                                    title: 'Berhasil'
+                                    , text: 'Data disimpan ke penyimpanan sementara'
+                                    , icon: 'success'
+                                    , showConfirmButton: false
+                                    , timer: 2000
+                                    , timerProgressBar: true
+                                    , didOpen: () => {}
+                                    , willClose: () => {
+                                        $('button#refresh').click();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+            $('#submit_progress').on('click', function() {
+                Swal.fire({
+                    title: 'Apa kamu yakin?'
+                    , text: "data akan dikirim!"
+                    , icon: 'warning'
+                    , showCancelButton: true
+                    , confirmButtonColor: '#3085d6'
+                    , cancelButtonColor: '#d33'
+                    , confirmButtonText: 'Ya, kirim!'
+                    , cancelButtonText: 'Batal'
+                }).then((question) => {
+                    if (question.isConfirmed) {
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                            , method: 'POST'
+                            , cache: false
+                            , data: {
+                                initialData
+                            }
+                            , url: `{{ url('vehicles/checklist/update/') }}`
+                            , success: function(response) {
+                                Swal.fire({
+                                    title: 'Berhasil'
+                                    , text: response
+                                    , icon: 'success'
+                                    , showConfirmButton: false
+                                    , timer: 2000
+                                    , timerProgressBar: true
+                                    , didOpen: () => {}
+                                    , willClose: () => {
+                                        $('button#refresh').click();
+                                    }
+                                })
+                            }
+                            , error: function(data) {
+                                var errors = data.responseJSON;
+                                Swal.fire({
+                                    icon: 'error'
+                                    , title: 'Oops...'
+                                    , text: errors['message']
+                                , });
+                            }
+                        });
+
+                    }
+                });
+            });
         }, 500)
+
     })
+
+</script>
+
+<script>
+
 
 </script>
 

@@ -410,6 +410,41 @@ class VehiclesController extends Controller
         }
     }
 
+    public function checklistUpdate(Request $request, VehicleChecklist $vehicleChecklist)
+    {
+        try {
+           
+            $dataToUpdate = $request->input('initialData', []);
+            $filterData =array_filter($dataToUpdate);
+
+            // dd($filterData);
+            if (!empty($filterData)) {
+                $ids = array_column($filterData, 'checklist_id');
+    
+                foreach ($filterData as $record) {
+                    $updateData = [
+                        'is_good' => $record['is_good'],
+                        'status' => $record['status'],
+                        'update_by' => Auth::user()->user_name,
+                    ];
+    
+                    // Update each record individually
+                    VehicleChecklist::where('checklist_id', $record['checklist_id'])->update($updateData);
+                }
+    
+              
+            }
+    
+            DB::commit();
+    
+
+            return 'data berhasil diupdate';
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+    }
+
 
 
 }
