@@ -15,7 +15,7 @@ class VehicleChecklist extends Model
 
     public function vehicles()
     {
-        return $this->belongsTo(Vehicle::class, 'category_code', 'category_code');
+        return $this->belongsTo(Vehicle::class, 'vehicle_code', 'vehicle_code');
     }
     public function forms()
     {

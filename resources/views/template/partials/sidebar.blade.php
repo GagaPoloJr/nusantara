@@ -48,10 +48,10 @@
             </div>
 
             @foreach($menus as $index => $menu)
-            @can('read '.$menu->url)
+                @can('read '.$menu->url)
 
             <!--begin:Menu item-->
-            @if($index === 0)
+          
             <div data-kt-menu-trigger="click" class="menu-item menu-accordion hover show">
                 <!--begin:Menu link-->
                 <span class="menu-link">
@@ -71,12 +71,15 @@
                 <!--begin:Menu sub-->
                 <div class="menu-sub menu-sub-accordion">
                     @include('template.partials.sidebar_sub',['subMenus' => $menu->subMenus, 'menus' => $menu])
+
+                    @can('read vehicles')
+                    @include('template.partials.sub_sidebar_sub',['menu_vehicles' => $menu_vehicles])
+                    @endcan
                 </div>
                 <!--end:Menu sub-->
             </div>
             <!--end:Menu item-->
-            @endif
-            @endcan
+             @endcan
 
             @endforeach
 

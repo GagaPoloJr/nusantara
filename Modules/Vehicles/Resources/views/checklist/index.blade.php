@@ -237,11 +237,11 @@
                                             <label class="fs-5 fw-bold form-label mb-5">Pilih Format:</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <select data-control="select2" data-placeholder="Select a format" data-hide-search="true" name="format" class="form-select form-select-solid">
-                                                <option value="excell">Excel</option>
+                                            <select id="exportFormat" data-control="select2" data-placeholder="Select a format" data-hide-search="true" name="format" class="form-select form-select-solid">
+                                                <option value=""></option>
                                                 <option value="pdf">PDF</option>
-                                                <option value="cvs">CVS</option>
-                                                <option value="zip">ZIP</option>
+                                                {{-- <option value="cvs">CVS</option>
+                                                <option value="zip">ZIP</option> --}}
                                             </select>
                                             <!--end::Input-->
                                             <!--end::Input group-->
@@ -249,7 +249,7 @@
                                         <!--begin::Actions-->
                                         <div class="text-center">
                                             <button type="reset" id="kt_subscriptions_export_cancel" class="btn btn-light me-3">Batal</button>
-                                            <button type="submit" id="kt_subscriptions_export_submit" class="btn btn-primary">
+                                            <button type="button" data-code="" id="export_data" class="btn btn-primary">
                                                 <span class="indicator-label">Download</span>
                                                 <span class="indicator-progress">Please wait...
                                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -317,6 +317,9 @@
                 }
                 , success: function(data) {
                     displayResults(data);
+                    console.log(data)
+                    generateLinkExport(data[0].vehicle_code)
+
                 }
             });
         }
@@ -333,6 +336,8 @@
                 }
                 , success: function(data) {
                     displayResults(data);
+                    generateLinkExport(data[0].vehicle_code)
+
                 }
             })
         })
@@ -342,6 +347,7 @@
             window.history.replaceState({
                 path: newUrl
             }, '', newUrl);
+            generateLinkExport(query)
         }
 
         function displayResults(results) {
@@ -368,6 +374,7 @@
                         resultsContainer.hide();
                         buttonTambah.show();
                         checkListData(result.vehicle_code)
+                        generateLinkExport(result.vehicle_code)
 
                     });
 
@@ -380,6 +387,62 @@
             //show the results search
             resultsContainer.show();
         }
+
+        function generateLinkExport(code) {
+            $('#exportFormat').change(function() {
+                // Get the selected value
+                let selectedFormat = $(this).val();
+                console.log(selectedFormat)
+                if (selectedFormat === 'pdf') {
+                    // let exportUrl = `vehicles/checklist/export/${code}`;
+                    // Update the href attribute of the link in the PDF option
+                    $('#export_data').attr('data-code', code);
+                }
+            });
+        }
+
+        $('#export_data').on('click', function () {
+                    let data = $(this).data();
+                    let code = data.code;
+
+                    // Create a hidden link
+                    let downloadLink = document.createElement('a');
+                    document.body.appendChild(downloadLink);
+
+                    $.ajax({
+                        method: 'get',
+                        url: `{{ url('vehicles/checklist/export') }}/${code}`,
+                        xhrFields: {
+                            responseType: 'blob' 
+                        },
+                        success: function (response) {
+                            // let blob = new Blob([response], { type: 'application/pdf' });
+                            // let url = window.URL.createObjectURL(blob);
+                            // downloadLink.href = url;
+                            // downloadLink.download = `vehicle_${code}.pdf`;
+                            // downloadLink.click();
+                            // document.body.removeChild(downloadLink);
+                            // console.log('PDF opened');
+
+                            let blob = new Blob([response], { type: 'application/pdf' });
+                            let url = window.URL.createObjectURL(blob);
+
+                            // Open the PDF in a new tab or window
+                            window.open(url, '_blank');
+
+                            console.log('PDF opened');
+
+
+                            // hide the modal
+                            $('#kt_subscriptions_export_modal').modal('hide');
+                        },
+                        error: function (error) {
+                            console.error('Error downloading PDF:', error);
+                            $('#kt_subscriptions_export_modal').modal('hide');
+                        }
+                    });
+        });
+
 
 
         function populateResultData(vehicle_name, vehicle_code, vehicle_number) {
@@ -521,7 +584,6 @@
                         ]
 
                     , createdRow: function(row, data, dataIndex, cells) {
-                        console.log(initialData)
 
                         function renderStatusTemplate(text) {
                             return `
@@ -530,17 +592,15 @@
                         }
 
                         function checkData(id, form_id, vehicle_code) {
-                            console.log(`${initialData[dataIndex]}`, 'data aja')
-                             if (data['is_good'] !== null) {
+                           
+                            if (data['is_good'] !== null) {
                                 return `${data['is_good'] === 1 ? renderStatusTemplate('Baik') : renderStatusTemplate('Tidak Baik')}`;
-                            } 
-                             else if (initialData[dataIndex]?.is_update) {
+                            } else if (initialData[dataIndex]?.is_update) {
                                 return `
                                     ${initialData[dataIndex]?.is_good === 1 ? renderStatusTemplate('Baik') : renderStatusTemplate('Tidak Baik')}
                                 `;
-                            } 
-                            else {
-                               
+                            } else {
+
                                 return actionButton(id, form_id, vehicle_code);
                             }
                         }
@@ -568,10 +628,9 @@
                         $(cells[0]).html('<div class="badge bg-dark text-wrap fs-6">' + data['DT_RowIndex'] + '</div>')
                         $(cells[1]).html(data['forms']['form_name'])
                         $(cells[2]).html('-')
-                        $(cells[3]).html(convertDate(data['created_at']))
+                        $(cells[3]).html(data['updated_at'] ? convertDate(data['updated_at']) : '-')
                         $(cells[4]).html(data['status'])
-                        $(cells[5]).html(initialData ? checkData('checklist_id', 'form_id', 'vehicle_code') :actionButton('checklist_id', 'form_id', 'vehicle_code'))
-                        // $(cells[4]).html('<div class="btn-access  float-end"> @can("delete access") <button id="btn_delete" data-id=' + data['menu_id'] + ' type="button" class="btn btn-danger btn-sm waves-effect waves-light float-end me-1 p-2"><span class="btn-label"><i class="fa fa-trash p-1"></i></span>Hapus</button> @endcan @can("update access") <button id="btn_update" data-id=' + data['menu_id'] + ' type="button" class="btn btn-info btn-sm waves-effect waves-light float-end me-1 p-2" data-bs-toggle="modal" data-bs-target="#modal_default"><span class="btn-label"><i class="fa fa-pencil p-1"></i></span>Ubah</button> @endcan</div>')
+                        $(cells[5]).html(initialData ? checkData('checklist_id', 'form_id', 'vehicle_code') : actionButton('checklist_id', 'form_id', 'vehicle_code'))
                     }
                     , drawCallback: function() {
                         $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
@@ -664,10 +723,10 @@
                             , cancelButtonText: 'Batal'
                         }).then((question) => {
                             if (question.isConfirmed) {
-                               
+
                                 initialData[data_index] = {
                                     data_index: data_index
-                                    ,checklist_id: id
+                                    , checklist_id: id
                                     , status: result.value
                                     , is_good: status
                                     , vehicle_code: vehicle_code
@@ -677,7 +736,7 @@
 
                                 Swal.fire({
                                     title: 'Berhasil'
-                                    , text: 'Data disimpan ke penyimpanan sementara'
+                                    , text: 'Data disimpan ke penyimpanan sementara. Tekan submit progress untuk update data.'
                                     , icon: 'success'
                                     , showConfirmButton: false
                                     , timer: 2000

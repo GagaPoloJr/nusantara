@@ -9,7 +9,7 @@
             <span class="text-muted mt-1 fw-bold fs-7">{{ $total }} Kendaraan Sudah Teregistrasi</span>
         </h3>
         <div class="card" data-bs-placement="top">
-            @can('create access')
+            @can('create vehicles')
             <button type="button" class="btn btn-primary  btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default" id="btn_add">
                 {{-- <i class="fa fa-plus"></i> --}}
                 Registrasi

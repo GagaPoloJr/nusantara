@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Jobs\ProcessNotification;
+use App\Models\Access;
 use App\Models\Menu;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,11 +22,16 @@ require __DIR__ . '/auth.php';
 
 view()->composer('template.partials.sidebar', function ($view) {
     $menus = Menu::with('subMenus')->get()->whereNotIn('deleted',true);
+    
     $menu_vehicles = [
         ['name' => 'Registrasi Kendaraan', 'link' => 'vehicles'],
         ['name' => 'Form Check', 'link' => 'vehicles/form'],
         ['name' => 'Checklist Kendaraan', 'link' => 'vehicles/checklist'],
     ];
+    $user = User::find(Auth::user()->user_id);
+
+    $roles = $user->hasPermissionTo('read vehicles');
+        // dd($roles);
     $view->with(['menus' =>$menus, 'menu_vehicles' => $menu_vehicles]);
 });
 

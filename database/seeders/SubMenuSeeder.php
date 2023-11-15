@@ -42,7 +42,7 @@ class SubMenuSeeder extends Seeder
             ]);
             SubMenu::create([
                 'sub_menu_name' => 'Grup',
-                'url' => 'Group',
+                'url' => 'group',
                 'menu_id' => 1,
                 'sort' => 'a'
             ]);
@@ -52,18 +52,18 @@ class SubMenuSeeder extends Seeder
                 'menu_id' => 1,
                 'sort' => 'a'
             ]);
-            SubMenu::create([
-                'sub_menu_name' => 'Menu',
-                'url' => 'menu',
-                'menu_id' => 1,
-                'sort' => 'a'
-            ]);
-            SubMenu::create([
-                'sub_menu_name' => 'Sub Menu',
-                'url' => 'submenu',
-                'menu_id' => 1,
-                'sort' => 'a'
-            ]);
+            // SubMenu::create([
+            //     'sub_menu_name' => 'Menu',
+            //     'url' => 'menu',
+            //     'menu_id' => 1,
+            //     'sort' => 'a'
+            // ]);
+            // SubMenu::create([
+            //     'sub_menu_name' => 'Sub Menu',
+            //     'url' => 'submenu',
+            //     'menu_id' => 1,
+            //     'sort' => 'a'
+            // ]);
 
             DB::commit();
         } catch (\Exception $e) {

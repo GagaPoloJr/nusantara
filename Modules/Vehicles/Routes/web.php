@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [VehiclesController::class, 'checklistCreate'])->name('checklist.create');
         Route::post('/create', [VehiclesController::class, 'checklistStore'])->name('checklist.store');
         Route::post('/update', [VehiclesController::class, 'checklistUpdate'])->name('checklist.update');
+        Route::get('/export/{code}', [VehiclesController::class, 'exportChecklistPDF'])->name('checklist.export');
 
         Route::post('/search', [VehiclesController::class, 'searchVehicles'])->name('search.vehicles');
         Route::get('/{code}', [VehiclesController::class, 'getFormChecklist'])->name('checklist.vehicles');

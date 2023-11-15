@@ -8,7 +8,7 @@
             <span class="card-label fw-bolder fs-3 mb-1">Registrasi Form Cek</span>
         </h3>
         <div class="card" data-bs-placement="top">
-            @can('create access')
+            @can('create vehicles')
             <button type="button" class="btn btn-primary  btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default" id="btn_add">
                 {{-- <i class="fa fa-plus"></i> --}}
                 Tambah

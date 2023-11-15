@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
-
+use PDF;
 class VehiclesController extends Controller
 {
 
@@ -358,7 +358,7 @@ class VehiclesController extends Controller
 
     public function getFormChecklist($code)
     {
-        if (Gate::allows('create vehicles')) {
+        if (Gate::allows('read vehicles')) {
 
             $vehicles_checklist = VehicleChecklist::with('forms')->get()->where('vehicle_code', $code);
             return DataTables::of($vehicles_checklist)
@@ -443,6 +443,15 @@ class VehiclesController extends Controller
             DB::rollback();
             throw $e;
         }
+    }
+
+    public function exportChecklistPDF($code)
+    {
+        $vehicle = VehicleChecklist::with('vehicles')->get()->where('vehicle_code', $code)->first();
+        $vehicles_checklist = VehicleChecklist::with('forms')->get()->where('vehicle_code', $code);
+      
+    	$pdf = PDF::loadview('vehicles::checklist.export',['vehicle'=>$vehicle, 'vehicles_checklist' => $vehicles_checklist]);
+    	return $pdf->download('laporan.pdf');
     }
 
 

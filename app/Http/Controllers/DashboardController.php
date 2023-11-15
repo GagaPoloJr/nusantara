@@ -44,6 +44,8 @@ class DashboardController extends Controller
             $companyUser = Company::whereIn('company_id', CompanyUser::where('user_id', '=', Auth::user()->user_id)->pluck('company_id'))->get();
             $is_admin = false;
         }
+        // dd($user->getAllPermissions());
+        
         return view('template.pages.dashboard.read', [
             'user' => $user,
             'notifications' => $notifications,
